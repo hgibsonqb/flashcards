@@ -9,8 +9,9 @@ app.get('/', (request, response) => {
   response.redirect(303, '/card/0');
 });
 
-app.get('/card/:number', (request, response) => {
-  response.render('card', {question: 'Hello', answer: 'World!', number: request.params.number, show_answer: true});
+app.get('/card/:number(\\d+)/', (request, response) => {
+  const number = parseInt(request.params.number);
+  response.render('card', {question: 'Hello', answer: 'World!', number: number, show_answer: true});
 });
 
 app.listen(PORT);
