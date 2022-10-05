@@ -3,7 +3,7 @@ extends layout.pug
 block content
   section#content
     h2(title='question')=question
-    h3(title='card_number')=number
+      strong(title='card_number')='Card number: ' + number
     if show_answer
       p(title='answer')=answer
       button(name='next_button', type='button', value='Next')
