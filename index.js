@@ -1,4 +1,5 @@
 const express = require('express');
+const cookie_parser = require('cookie-parser');
 const body_parser = require('body-parser');
 
 const PORT = 8080;
@@ -6,9 +7,11 @@ const app = express();
 
 app.set('view engine', 'pug');
 app.use(body_parser.urlencoded({extended: false})); // Use querystring library not qs library
+app.use(cookie_parser());
 
 app.get('/', (request, response) => {
-  response.redirect(303, '/card/0');
+  const card_number = request.cookies.card_number ? request.cookies.card_number : 0;
+  response.redirect(303, `/card/${card_number}`);
 });
 
 app.get('/card/:number(\\d+)/', (request, response) => {
@@ -23,6 +26,7 @@ app.post('/card/:number(\\d+)/', (request, response) => {
   if (action === 'show_answer') {
     response.redirect(303, `/card/${number}?show_answer=true`);
   } else if (action === 'show_next') {
+    response.cookie('card_number', number + 1);
     response.redirect(303, `/card/${number + 1}`);
   }
 });
