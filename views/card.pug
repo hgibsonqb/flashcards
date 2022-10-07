@@ -3,9 +3,11 @@ extends layout.pug
 block content
   section#content
     h2(title='question')=question
-      strong(title='card_number')='Card number: ' + number
+    strong(title='card_number')='Card number: ' + number
     if show_answer
       p(title='answer')=answer
-      button(name='next_button', type='button', value='Next')
+      form(method='post')#next
+        button(name='action', type='submit', value='show_next')#show_next_button Show Next
     else
-      button(name='show_answer_button', type='button', value='Show Answer')
+      form(method='post')#show_answer
+        button(name='action', type='submit', value='show_answer')#show_answer_button Show Answer
