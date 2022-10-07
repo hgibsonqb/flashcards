@@ -8,6 +8,10 @@ const app = express();
 app.set('view engine', 'pug');
 app.use(body_parser.urlencoded({extended: false})); // Use querystring library not qs library
 app.use(cookie_parser());
+app.use((request, response, next) => {
+  console.log({'timestamp': Date.now(), 'message': `${request.method} ${request.url} ${response.statusCode}`});
+  next();
+});
 
 app.get('/', (request, response) => {
   const card_number = request.cookies.card_number ? request.cookies.card_number : 0;
@@ -34,4 +38,6 @@ app.post('/card/:number(\\d+)/', (request, response) => {
   }
 });
 
-app.listen(PORT);
+app.listen(PORT, () => {
+  console.log({'timestamp': Date.now(), 'message': `App listening on port ${PORT}`});
+});
