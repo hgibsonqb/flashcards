@@ -28,6 +28,9 @@ app.post('/card/:number(\\d+)/', (request, response) => {
   } else if (action === 'show_next') {
     response.cookie('card_number', number + 1);
     response.redirect(303, `/card/${number + 1}`);
+  } else if (action === 'reset') {
+    response.clearCookie('card_number');
+    response.redirect(303, '/card/0');
   }
 });
 
