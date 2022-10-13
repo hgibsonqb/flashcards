@@ -8,9 +8,18 @@ const app = express();
 app.set('view engine', 'pug');
 app.use(body_parser.urlencoded({extended: false})); // Use querystring library not qs library
 app.use(cookie_parser());
+// Logging middleware
 app.use((request, response, next) => {
   console.log({'timestamp': Date.now(), 'message': `${request.method} ${request.url} ${response.statusCode}`});
   next();
+});
+// Error middleware
+app.use((error, request, response, next) => {
+  console.log({'timestamp': Date.now(), 'message': `${error.message} ${error.stack}`});
+  const status = 500;
+  error.status = status;
+  response.status(status);
+  response.render('error', error);
 });
 
 app.get('/', (request, response) => {
