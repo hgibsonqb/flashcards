@@ -13,14 +13,6 @@ app.use((request, response, next) => {
   console.log({'timestamp': Date.now(), 'message': `${request.method} ${request.url} ${response.statusCode}`});
   next();
 });
-// Error middleware
-app.use((error, request, response, next) => {
-  console.log({'timestamp': Date.now(), 'message': `${error.message} ${error.stack}`});
-  const status = 500;
-  error.status = status;
-  response.status(status);
-  response.render('error', error);
-});
 
 app.get('/', (request, response) => {
   const card_number = request.cookies.card_number ? request.cookies.card_number : 0;
@@ -45,6 +37,22 @@ app.post('/card/:number(\\d+)/', (request, response) => {
     response.clearCookie('card_number');
     response.redirect(303, '/card/0');
   }
+});
+
+// 404 handler
+app.use((request, response, next) => {
+  const status = 404;
+  const error = new Error('Not Found');
+  error.status = status;
+  next(error);
+});
+
+// Error middleware
+app.use((error, request, response, next) => {
+  console.log({'timestamp': Date.now(), 'message': `${error.message} ${error.stack}`});
+  error.status = error.status ? error.status : 500;
+  response.status(error.status);
+  response.render('error', {error: error});
 });
 
 app.listen(PORT, () => {
