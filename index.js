@@ -3,6 +3,7 @@ const cookie_parser = require('cookie-parser');
 const body_parser = require('body-parser');
 
 const PORT = 8080;
+const { cards } = require('./cards.json');
 const app = express();
 
 app.set('view engine', 'pug');
@@ -22,7 +23,11 @@ app.get('/', (request, response) => {
 app.get('/card/:number(\\d+)/', (request, response) => {
   const number = parseInt(request.params.number);
   const show_answer = request.query.show_answer;
-  response.render('card', {question: 'Hello', answer: 'World!', number: number, show_answer: show_answer});
+  if ( number >= cards.length - 1) {
+    response.clearCookie('card_number');
+    response.redirect(303, `/card/0`);
+  }
+  response.render('card', {question: cards[number].question, answer: cards[number].answer, number: number, show_answer: show_answer});
 });
 
 app.post('/card/:number(\\d+)/', (request, response) => {
@@ -31,8 +36,13 @@ app.post('/card/:number(\\d+)/', (request, response) => {
   if (action === 'show_answer') {
     response.redirect(303, `/card/${number}?show_answer=true`);
   } else if (action === 'show_next') {
-    response.cookie('card_number', number + 1);
-    response.redirect(303, `/card/${number + 1}`);
+    if ( number >= cards.length - 1) {
+      response.clearCookie('card_number');
+      response.redirect(303, `/card/0`);
+    } else {
+      response.cookie('card_number', number + 1);
+      response.redirect(303, `/card/${number + 1}`);
+    }
   } else if (action === 'reset') {
     response.clearCookie('card_number');
     response.redirect(303, '/card/0');
@@ -57,4 +67,5 @@ app.use((error, request, response, next) => {
 
 app.listen(PORT, () => {
   console.log({'timestamp': Date.now(), 'message': `App listening on port ${PORT}`});
+  console.log({'timestamp': Date.now(), 'message': `${cards.length} cards loaded`});
 });
