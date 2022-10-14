@@ -22,7 +22,7 @@ app.get('/', (request, response) => {
 
 app.get('/card/:number(\\d+)/', (request, response) => {
   const number = parseInt(request.params.number);
-  const show_answer = request.query.show_answer;
+  const show_answer = request.query.show_answer && request.query.show_answer.toLowerCase() === 'true';
   if ( number < 0 && number >= cards.length - 1) {
     response.clearCookie('card_number');
     response.redirect(303, `/card/0`);
