@@ -23,7 +23,7 @@ app.get('/', (request, response) => {
 app.get('/card/:number(\\d+)/', (request, response) => {
   const number = parseInt(request.params.number);
   const show_answer = request.query.show_answer;
-  if ( number >= cards.length - 1) {
+  if ( number < 0 && number >= cards.length - 1) {
     response.clearCookie('card_number');
     response.redirect(303, `/card/0`);
   }
@@ -36,13 +36,9 @@ app.post('/card/:number(\\d+)/', (request, response) => {
   if (action === 'show_answer') {
     response.redirect(303, `/card/${number}?show_answer=true`);
   } else if (action === 'show_next') {
-    if ( number >= cards.length - 1) {
-      response.clearCookie('card_number');
-      response.redirect(303, `/card/0`);
-    } else {
-      response.cookie('card_number', number + 1);
-      response.redirect(303, `/card/${number + 1}`);
-    }
+    const next = Math.floor(Math.random() * cards.length);
+    response.cookie('card_number', next);
+    response.redirect(303, `/card/${next}`);
   } else if (action === 'reset') {
     response.clearCookie('card_number');
     response.redirect(303, '/card/0');
