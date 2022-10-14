@@ -9,6 +9,7 @@ const app = express();
 app.set('view engine', 'pug');
 app.use(body_parser.urlencoded({extended: false})); // Use querystring library not qs library
 app.use(cookie_parser());
+app.use('/static', express.static('public'));
 // Logging middleware
 app.use((request, response, next) => {
   console.log({'timestamp': Date.now(), 'message': `${request.method} ${request.url} ${response.statusCode}`});
