@@ -23,25 +23,13 @@ app.get('/', (request, response) => {
 app.get('/card/:number(\\d+)/', (request, response) => {
   const number = parseInt(request.params.number);
   const show_answer = request.query.show_answer && request.query.show_answer.toLowerCase() === 'true';
-  if ( number < 0 && number >= cards.length - 1) {
+  if ( number >= 0 && number < cards.length ) {
+    const next = Math.floor(Math.random() * cards.length);
+    response.cookie('card_number', number);
+    response.render('card', {answer: cards[number].answer, length: cards.length, next: next, number: number, question: cards[number].question, show_answer: show_answer});
+  } else {
     response.clearCookie('card_number');
     response.redirect(303, `/card/0`);
-  }
-  response.render('card', {question: cards[number].question, answer: cards[number].answer, number: number, show_answer: show_answer});
-});
-
-app.post('/card/:number(\\d+)/', (request, response) => {
-  const number = parseInt(request.params.number);
-  const action = request.body['action'];
-  if (action === 'show_answer') {
-    response.redirect(303, `/card/${number}?show_answer=true`);
-  } else if (action === 'show_next') {
-    const next = Math.floor(Math.random() * cards.length);
-    response.cookie('card_number', next);
-    response.redirect(303, `/card/${next}`);
-  } else if (action === 'reset') {
-    response.clearCookie('card_number');
-    response.redirect(303, '/card/0');
   }
 });
 

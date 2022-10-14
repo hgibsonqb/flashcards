@@ -3,13 +3,15 @@ extends layout.pug
 block content
   section#content
     h2(title='question')=question
-    strong(title='card_number')='Card number: ' + number
     if show_answer
-      p(title='answer')=answer
-      form(method='post')#next
-        button(name='action', type='submit', value='show_next')#show_next_button Show Next
+      p
+        strong(title='answer')=answer
+      p
+        a(href=`/card/${next}`) Show Next
     else
-      form(method='post')#show_answer
-        button(name='action', type='submit', value='show_answer')#show_answer_button Show Answer
-    form(method='post')#reset
-      button(name='action', type='submit', value='reset')#reset_button Reset
+      p
+        a(href=`/card/${number}?show_answer=true`) Show Answer
+    p
+      strong(title='card_number')='Card number: ' + number + ' of ' + length
+    p
+      a(href='/card/0') Reset
