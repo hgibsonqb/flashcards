@@ -11,14 +11,27 @@ const db = new sequelize({
 });
 class Card extends sequelize.Model {};
 Card.init({
-  answer: sequelize.STRING,
+  answer: {
+    allowNull: false,
+    type: sequelize.STRING,
+    validate: {
+      notNull: { msg: "question is required" }
+    }
+  },
   id: {
     autoIncrement: true,
-    type: sequelize.INTEGER,
-    primaryKey: true 
+    primaryKey: true,
+    type: sequelize.INTEGER
   },
-  question: sequelize.STRING
+  question: {
+    allowNull: false,
+    type: sequelize.STRING,
+    validate: {
+      notNull: { msg: "question is required" }
+    }
+  }
 }, { sequelize: db });
+
 
 const app = express();
 
@@ -68,7 +81,6 @@ app.use((error, request, response, next) => {
 
 app.listen(PORT, async () => {
   console.log({'timestamp': Date.now(), 'message': `App listening on port ${PORT}`});
-  console.log({'timestamp': Date.now(), 'message': `${cards.length} cards loaded`});
   try {
     await db.authenticate();
   } catch (error) {
@@ -77,6 +89,13 @@ app.listen(PORT, async () => {
   try {
     await db.sync();
 
+  } catch (error) {
+    console.error('Error connecting to the database: ', error);
+  }
+  try {
+    for (let i = 0; i < cards.length; i++) {
+      const card = await Card.create({ answer: cards[i].answer, question: cards[i].question});
+    }
   } catch (error) {
     console.error('Error connecting to the database: ', error);
   }
