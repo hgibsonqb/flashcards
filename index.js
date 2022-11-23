@@ -9,7 +9,16 @@ const db = new sequelize({
   dialect: 'sqlite',
   storage: 'cards.db'
 });
-// async IIFE
+class Card extends sequelize.Model {};
+Card.init({
+  answer: sequelize.STRING,
+  id: {
+    autoIncrement: true,
+    type: sequelize.INTEGER,
+    primaryKey: true 
+  },
+  question: sequelize.STRING
+}, { sequelize: db });
 
 const app = express();
 
@@ -62,6 +71,12 @@ app.listen(PORT, async () => {
   console.log({'timestamp': Date.now(), 'message': `${cards.length} cards loaded`});
   try {
     await db.authenticate();
+  } catch (error) {
+    console.error('Error connecting to the database: ', error);
+  }
+  try {
+    await db.sync();
+
   } catch (error) {
     console.error('Error connecting to the database: ', error);
   }
