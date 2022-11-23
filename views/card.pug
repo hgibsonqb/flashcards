@@ -2,14 +2,20 @@ extends layout.pug
 
 block content
   section#content
-    h2(title='question')=question
-    if show_answer
-      p
-        strong(title='answer')=answer
-      p
-        a(href=`/card/${next}`) Show Next
-    else
-      p
-        a(href=`/card/${number}?show_answer=true`) Show Answer
-    p
-      strong(title='card_number')='Card number: ' + number + ' of ' + length
+    div.card
+      if show_answer
+        div.card-answer
+          img(src='/static/img/content-header-answer.png' alt='Question Content Answer') 
+          p#content=answer
+          a(href=`/card/${next}`) Show Next
+      else
+        div.card-question
+          img(src='/static/img/content-header-question.png' alt='Question Content Header') 
+          h2(title='question')=question
+        div.card-flip-wrap
+          div.card-flip
+            img(src='/static/img/flip.svg' alt='Flip Icon') 
+            a(href=`/card/${number}?show_answer=true`) Show Answer
+      div.card-next
+        img(src='/static/img/next.svg' alt='Next Icon') 
+        strong(title='card_number')='Card number: ' + number + ' of ' + length
