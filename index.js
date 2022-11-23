@@ -9,29 +9,7 @@ const db = new sequelize({
   dialect: 'sqlite',
   storage: 'cards.db'
 });
-class Card extends sequelize.Model {};
-Card.init({
-  answer: {
-    allowNull: false,
-    type: sequelize.STRING,
-    validate: {
-      notNull: { msg: "question is required" }
-    }
-  },
-  id: {
-    autoIncrement: true,
-    primaryKey: true,
-    type: sequelize.INTEGER
-  },
-  question: {
-    allowNull: false,
-    type: sequelize.STRING,
-    validate: {
-      notNull: { msg: "question is required" }
-    }
-  }
-}, { sequelize: db });
-
+const Card = require('./models/cards.js')(db)
 
 const app = express();
 
