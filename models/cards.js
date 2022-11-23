@@ -7,7 +7,8 @@ module.exports = (db) => {
       allowNull: false,
       type: sequelize.STRING,
       validate: {
-        notNull: { msg: "question is required" }
+        notEmpty: { msg: "answer is required" }
+        notNull: { msg: "answer is required" }
       }
     },
     id: {
@@ -19,6 +20,7 @@ module.exports = (db) => {
       allowNull: false,
       type: sequelize.STRING,
       validate: {
+        notEmpty: { msg: "question is required" }
         notNull: { msg: "question is required" }
       }
     }
