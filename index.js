@@ -1,9 +1,16 @@
-const express = require('express');
-const cookie_parser = require('cookie-parser');
 const body_parser = require('body-parser');
+const cookie_parser = require('cookie-parser');
+const express = require('express');
+const sequelize = require('sequelize');
 
 const PORT = 8080;
 const { cards } = require('./cards.json');
+const db = new sequelize({
+  dialect: 'sqlite',
+  storage: 'cards.db'
+});
+// async IIFE
+
 const app = express();
 
 app.set('view engine', 'pug');
@@ -50,7 +57,12 @@ app.use((error, request, response, next) => {
   response.render('error', {error: error});
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
   console.log({'timestamp': Date.now(), 'message': `App listening on port ${PORT}`});
   console.log({'timestamp': Date.now(), 'message': `${cards.length} cards loaded`});
+  try {
+    await db.authenticate();
+  } catch (error) {
+    console.error('Error connecting to the database: ', error);
+  }
 });
