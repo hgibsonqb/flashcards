@@ -1,16 +1,14 @@
-const body_parser = require('body-parser');
+const body_parser = require('body-parser'); 
 const cookie_parser = require('cookie-parser');
 const express = require('express');
 const sequelize = require('sequelize');
 
 const PORT = 8080;
-const { cards } = require('./cards.json');
 const db = new sequelize({
   dialect: 'sqlite',
   storage: 'cards.db'
 });
 const Card = require('./models/cards.js')(db)
-
 const app = express();
 
 app.set('view engine', 'pug');
@@ -28,13 +26,14 @@ app.get('/', (request, response) => {
   response.redirect(303, `/card/${card_number}`);
 });
 
-app.get('/card/:number(\\d+)/', (request, response) => {
+app.get('/card/:number(\\d+)/', async (request, response) => {
   const number = parseInt(request.params.number);
   const show_answer = request.query.show_answer && request.query.show_answer.toLowerCase() === 'true';
-  if ( number >= 0 && number < cards.length ) {
-    const next = Math.floor(Math.random() * cards.length);
+  if ( number >= 0 && number < app.settings['card_count'] ) {
+    const next = Math.floor(Math.random() * app.settings['card_count']);
     response.cookie('card_number', number);
-    response.render('card', {answer: cards[number].answer, length: cards.length, next: next, number: number, question: cards[number].question, show_answer: show_answer});
+    const card = await Card.findByPk(number);
+    response.render('card', {answer: card.answer, length: app.settings['card_count'], next: next, number: number, question: card.question, show_answer: show_answer});
   } else {
     response.clearCookie('card_number');
     response.redirect(303, `/card/0`);
@@ -61,19 +60,9 @@ app.listen(PORT, async () => {
   console.log({'timestamp': Date.now(), 'message': `App listening on port ${PORT}`});
   try {
     await db.authenticate();
-  } catch (error) {
-    console.error('Error connecting to the database: ', error);
-  }
-  try {
     await db.sync();
-
-  } catch (error) {
-    console.error('Error connecting to the database: ', error);
-  }
-  try {
-    for (let i = 0; i < cards.length; i++) {
-      const card = await Card.create({ answer: cards[i].answer, question: cards[i].question});
-    }
+    app.set('card_count', await Card.count());
+    console.log({'timestamp': Date.now(), 'message': `${app.settings['card_count']} cards available`});
   } catch (error) {
     console.error('Error connecting to the database: ', error);
   }
