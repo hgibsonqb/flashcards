@@ -8,7 +8,7 @@ const db = new sequelize({
   dialect: 'sqlite',
   storage: 'cards.db'
 });
-const Card = require('./models/cards.js')(db)
+const Card = require('./models/card.js')(db)
 const app = express();
 
 app.set('view engine', 'pug');
