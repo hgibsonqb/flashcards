@@ -1,6 +1,7 @@
 const sequelize = require('sequelize');
 
 module.exports = (db) => {
+  const User = require('./user.js')(db);
   class Card extends sequelize.Model {};
   Card.init({
     answer: {
@@ -11,10 +12,13 @@ module.exports = (db) => {
         notNull: { msg: "answer is required" }
       }
     },
-    id: {
-      autoIncrement: true,
-      primaryKey: true,
-      type: sequelize.INTEGER
+    hint: {
+      allowNull: false,
+      type: sequelize.STRING,
+      validate: {
+        notEmpty: { msg: "hint is required" },
+        notNull: { msg: "hint is required" }
+      }
     },
     question: {
       allowNull: false,
@@ -25,5 +29,7 @@ module.exports = (db) => {
       }
     }
   }, { sequelize: db });
+  User.hasMany(Card);
+  Card.belongsTo(User);
   return Card;
 };

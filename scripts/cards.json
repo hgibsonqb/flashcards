@@ -1,28 +1,40 @@
 {
   "cards": [
     {
+      "answer": "World 0",
+      "hint": "0",
       "question": "Hello",
-      "answer": "World 0"
+      "userid": "1"
     },
     {
+      "answer": "World 1",
+      "hint": "1",
       "question": "Hello",
-      "answer": "World 1"
+      "userid": "1"
     },
     {
+      "answer": "World 2",
+      "hint": "2",
       "question": "Hello",
-      "answer": "World 2"
+      "userid": "1"
     },
     {
+      "answer": "World 3",
+      "hint": "3",
       "question": "Hello",
-      "answer": "World 3"
+      "userid": "1"
     },
     {
+      "answer": "World 4",
+      "hint": "4",
       "question": "Hello",
-      "answer": "World 4"
+      "userid": "1"
     },
     {
+      "answer": "World 5",
+      "hint": "5",
       "question": "Hello",
-      "answer": "World 5"
+      "userid": "1"
     }
   ]
 }

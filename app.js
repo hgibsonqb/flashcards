@@ -1,43 +1,44 @@
 const body_parser = require('body-parser'); 
+const compression = require('compression')
 const cookie_parser = require('cookie-parser');
 const express = require('express');
+const cors = require('cors');
 const sequelize = require('sequelize');
 
-const PORT = 8080;
-const db = new sequelize({
+// Config
+const DB = new sequelize({
   dialect: 'sqlite',
   storage: 'cards.db'
 });
-const Card = require('./models/card.js')(db)
+const ORIGIN = 'http://localhost';
+const PORT = 8080;
+
 const app = express();
 
 app.set('view engine', 'pug');
 app.use(body_parser.urlencoded({extended: false})); // Use querystring library not qs library
+app.use(compression());
 app.use(cookie_parser());
+app.use(cors({origin: ORIGIN}));
 app.use('/static', express.static('public'));
+
 // Logging middleware
 app.use((request, response, next) => {
   console.log({'timestamp': Date.now(), 'message': `${request.method} ${request.url} ${response.statusCode}`});
   next();
 });
 
-app.get('/', (request, response) => {
-  const card_number = request.cookies.card_number ? request.cookies.card_number : 0;
-  response.redirect(303, `/card/${card_number}`);
-});
+// Authentication routes
+const auth = require('./routes/auth.js')(DB);
+app.use('/auth', auth);
 
-app.get('/card/:number(\\d+)/', async (request, response) => {
-  const number = parseInt(request.params.number);
-  const show_answer = request.query.show_answer && request.query.show_answer.toLowerCase() === 'true';
-  if ( number >= 0 && number < app.settings['card_count'] ) {
-    const next = Math.floor(Math.random() * app.settings['card_count']);
-    response.cookie('card_number', number);
-    const card = await Card.findByPk(number);
-    response.render('card', {answer: card.answer, length: app.settings['card_count'], next: next, number: number, question: card.question, show_answer: show_answer});
-  } else {
-    response.clearCookie('card_number');
-    response.redirect(303, `/card/0`);
-  }
+// Card routes
+const cards = require('./routes/cards.js')(DB);
+app.use('/cards', cards);
+
+// Index
+app.get('/', (request, response) => {
+  response.redirect(303, '/auth/hello');
 });
 
 // 404 handler
@@ -59,10 +60,8 @@ app.use((error, request, response, next) => {
 app.listen(PORT, async () => {
   console.log({'timestamp': Date.now(), 'message': `App listening on port ${PORT}`});
   try {
-    await db.authenticate();
-    await db.sync();
-    app.set('card_count', await Card.count());
-    console.log({'timestamp': Date.now(), 'message': `${app.settings['card_count']} cards available`});
+    await DB.authenticate();
+    await DB.sync();
   } catch (error) {
     console.error('Error connecting to the database: ', error);
   }
