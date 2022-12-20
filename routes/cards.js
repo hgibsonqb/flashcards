@@ -9,6 +9,7 @@ module.exports = (db) => {
   router.get('/', async ( request, response ) => {
     const userid = request.cookies.userid;
     if (userid) {
+      const user = await User.findByPk(userid);
       const card = await Card.findAll({ 
         limit: 1,
         order: db.random(),
@@ -17,7 +18,7 @@ module.exports = (db) => {
       if (card.length > 0) {
         response.redirect(303, `/cards/${userid}/${card[0].id}`);
       } else {
-        response.render('app');
+        response.render('app', {name: user.username});
       }
     } else {
       response.redirect(303, '/auth/hello');
