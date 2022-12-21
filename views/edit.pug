@@ -1,0 +1,6 @@
+extends app
+
+block card
+  section(class=`flashcards`)
+    form(action="/cards/" + userid + "/" + id, method="post")
+      include form

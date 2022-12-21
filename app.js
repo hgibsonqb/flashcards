@@ -38,7 +38,7 @@ app.use('/cards', cards);
 
 // Index
 app.get('/', (request, response) => {
-  response.redirect(303, '/auth/hello');
+  response.redirect(303, '/cards/');
 });
 
 // 404 handler
