@@ -43,9 +43,8 @@ app.get('/', (request, response) => {
 
 // 404 handler
 app.use((request, response, next) => {
-  const status = 404;
   const error = new Error('Not Found');
-  error.status = status;
+  error.status = 404;
   next(error);
 });
 

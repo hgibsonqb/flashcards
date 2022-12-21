@@ -21,9 +21,13 @@ module.exports = (db) => {
   });
 
   router.use('/:userid(\\d+)/:id(\\d+)/', async (request, response, next) => {
-    const id = request.params.id;
-    request.card = await Card.findByPk(parseInt(id));
-    next();
+    const id = parseInt(request.params.id);
+    request.card = await Card.findByPk(id);
+    if (request.card && request.card.UserId === request.user.id) {
+      next();
+    } else {
+      response.redirect(303, `/cards/${request.user.id}`);
+    }
   });
   
   router.get('/:userid(\\d+)/:id(\\d+)/delete', async (request, response) => {
