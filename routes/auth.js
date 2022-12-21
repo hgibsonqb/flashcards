@@ -30,6 +30,7 @@ module.exports = (db) => {
           }
           const user = await User.create({username: username, password: hash});
           request.session.userid = user.id;
+          request.session.username = user.username;
           response.redirect(302, '/cards');
         });
       });
@@ -38,6 +39,7 @@ module.exports = (db) => {
       bcrypt.compare(password, user.password, (error, result) => {
         if (result) {
           request.session.userid = user.id;
+          request.session.username = user.username;
           response.redirect(302, '/cards');
         } else {
           console.log("Password is incorrect"); 
