@@ -1,8 +1,9 @@
 const body_parser = require('body-parser'); 
 const compression = require('compression')
-const cookie_parser = require('cookie-parser');
-const express = require('express');
 const cors = require('cors');
+const crypto = require('crypto');
+const express = require('express');
+const session = require('express-session');
 const sequelize = require('sequelize');
 
 // Config
@@ -18,8 +19,21 @@ const app = express();
 app.set('view engine', 'pug');
 app.use(body_parser.urlencoded({extended: false})); // Use querystring library not qs library
 app.use(compression());
-app.use(cookie_parser());
 app.use(cors({origin: ORIGIN}));
+app.use(session({
+  cookie: {
+    maxAge: 1000 * 60 * 2, // 2 minutes
+    sameSite: 'strict',
+    secure: false // TODO set to true when using https
+  },
+  genid: function(request) {
+    return crypto.randomUUID(); // Use UUIDs for session IDs
+  },
+  resave: false,
+  rolling: true, // Restart maxAge count down from last response so user stays in if activity but is lock out if not
+  saveUninitialized: false, 
+  secret: crypto.randomUUID(),
+}));
 app.use('/static', express.static('public'));
 
 // Logging middleware

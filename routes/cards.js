@@ -7,7 +7,7 @@ module.exports = (db) => {
   const User = require('../models/user.js')(db);
 
   router.use('/', async (request, response, next) => {
-    const userid = request.cookies.userid;
+    const userid = request.session.userid;
     request.user = await User.findByPk(userid);
     next();
   });

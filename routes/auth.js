@@ -29,7 +29,7 @@ module.exports = (db) => {
             throw error; 
           }
           const user = await User.create({username: username, password: hash});
-          response.cookie('userid', user.id);
+          request.session.userid = user.id;
           response.redirect(302, '/cards');
         });
       });
@@ -37,7 +37,7 @@ module.exports = (db) => {
       // Login
       bcrypt.compare(password, user.password, (error, result) => {
         if (result) {
-          response.cookie('userid', user.id);
+          request.session.userid = user.id;
           response.redirect(302, '/cards');
         } else {
           console.log("Password is incorrect"); 
@@ -49,7 +49,7 @@ module.exports = (db) => {
 
   router.post('/goodbye', (request, response) => {
     // Log out
-    response.clearCookie('userid');
+    request.session.destroy();
     response.redirect(303, '/auth/hello');
   });
 
