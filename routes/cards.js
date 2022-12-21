@@ -13,8 +13,14 @@ module.exports = (db) => {
   });
 
   router.use('/:userid(\\d+)/', async (request, response, next) => {
-    if (request.user.id === parseInt(request.params.userid) ) {
-      next();
+    if (request.user.id) {
+      if (request.user.id === parseInt(request.params.userid) ) {
+        next();
+      } else {
+        const error = new Error('Not Authorized');
+        error.status = 401;
+        next(error);
+      }
     } else {
       response.redirect(303, '/auth/hello');
     }
@@ -23,10 +29,18 @@ module.exports = (db) => {
   router.use('/:userid(\\d+)/:id(\\d+)/', async (request, response, next) => {
     const id = parseInt(request.params.id);
     request.card = await Card.findByPk(id);
-    if (request.card && request.card.UserId === request.user.id) {
-      next();
+    if (request.card) {
+      if (request.card.UserId === request.user.id) {
+        next();
+      } else {
+        const error = new Error('Not Authorized');
+        error.status = 401;
+        next(error);
+      }
     } else {
-      response.redirect(303, `/cards/${request.user.id}`);
+      const error = new Error('Not Found');
+      error.status = 404;
+      next(error);
     }
   });
   
