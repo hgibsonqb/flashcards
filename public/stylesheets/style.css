@@ -342,3 +342,18 @@ input {
   width: 100%;
   height: 24px;
 }
+
+.new-card {
+  background-color: #fff;
+  border: 2px #D64226 solid;
+  font-size: 1em;
+  padding: 8px 10px;
+  color: #D64226;
+  font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
+  max-width: 400px;
+  display: block;
+  box-sizing: border-box;
+  height: 60px;
+  margin: auto;
+  position: relative;
+}

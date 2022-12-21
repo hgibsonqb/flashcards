@@ -16,4 +16,7 @@ block card
       .card-next
         a(href='/cards')
           img(src="/static/img/next.svg")
+      .card-delete
+        a(href='/cards/' + userid + '/' + id + '/delete') Delete Card
     script(src='/static/js/app.js')
+    a.new-card(href="/cards/" + userid + "/new", class="btn-new") Create New Flashcard &#43;

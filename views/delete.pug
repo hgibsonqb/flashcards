@@ -1,0 +1,13 @@
+extends app
+
+block card
+  section(class=`flashcards`)
+    h2= text
+    p 
+      | Are you sure you want to delete 
+      em= text
+      | ?
+    form(action="/cards/" + userid + "/" + id + "/delete", method="post")
+      a(href="/cards/" + userid + "/" + id) No! Take me back! 
+      | 
+      input(type="submit", value = "Yes, I'm sure")

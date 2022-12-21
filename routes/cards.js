@@ -27,11 +27,20 @@ module.exports = (db) => {
   });
   
   router.get('/:userid(\\d+)/:id(\\d+)/delete', async (request, response) => {
-    response.render(200); 
+    const template = {
+      id: request.card.id,
+      name: request.user.username,
+      text: request.card.question,
+      userid: request.user.id
+    }
+    response.render('delete', template); 
   });
   
   router.post('/:userid(\\d+)/:id(\\d+)/delete', async (request, response) => {
-    response.send(200); 
+    await Card.destroy({
+      where: {id: request.card.id}
+    });
+    response.redirect(303, `/cards/${request.user.id}/`); 
   });
   
   router.get('/:userid(\\d+)/:id(\\d+)/edit', async (request, response) => {
@@ -51,7 +60,7 @@ module.exports = (db) => {
     if (!side) {
         return response.redirect(303, `/cards/${request.user.id}/${request.card.id}?side=question`);
     }
-    const template = { id: request.card.id, name: request.user.username, side: side};
+    const template = { id: request.card.id, name: request.user.username, side: side, userid: request.user.id};
     if ( side === 'question' ) {
       template.hint = request.card.hint;
       template.sideToShow = 'answer';
@@ -98,7 +107,7 @@ module.exports = (db) => {
     response.redirect(303, `/cards/${request.user.id}/${card.id}?side=question`); 
   });
   
-  router.get('/', async ( request, response ) => {
+  router.get('/:userid(\\d+)?/', async ( request, response ) => {
     if (request.user) {
       const card = await Card.findAll({ 
         limit: 1,
@@ -108,7 +117,7 @@ module.exports = (db) => {
       if (card.length > 0) {
         response.redirect(303, `/cards/${request.user.id}/${card[0].id}`);
       } else {
-        response.render('index', {name: request.user.username});
+        response.render('index', {userid: request.user.id, name: request.user.username});
       }
     } else {
       response.redirect(303, '/auth/hello');

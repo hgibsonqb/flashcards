@@ -2,4 +2,4 @@ extends app
 
 block intro
   h1.namecard-prompt Let's get started
-  a.namecard-submit(href='/cards') Begin!
+  a.new-card(href="/cards/" + userid + "/new", class="btn-new") Create New Flashcard &#43;
