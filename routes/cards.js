@@ -66,7 +66,15 @@ module.exports = (db) => {
   });
   
   router.post('/:userid(\\d+)/:id(\\d+)/', async (request, response) => {
-    response.send(200); 
+    await Card.update({
+      answer: request.body.answer,
+      hint: request.body.hint,
+      question: request.body.question,
+      UserId: request.user.id
+    },{
+      where: {id: request.card.id}
+    });
+    response.redirect(303, `/cards/${request.user.id}/${request.card.id}?side=question`); 
   });
   
   router.get('/:userid(\\d+)/new', async (request, response) => {
@@ -81,7 +89,13 @@ module.exports = (db) => {
   });
   
   router.post('/:userid(\\d+)/', async (request, response) => {
-    response.send(200); 
+    const card = await Card.create({
+      answer: request.body.answer,
+      hint: request.body.hint,
+      question: request.body.question,
+      UserId: request.user.id
+    });
+    response.redirect(303, `/cards/${request.user.id}/${card.id}?side=question`); 
   });
   
   router.get('/', async ( request, response ) => {
