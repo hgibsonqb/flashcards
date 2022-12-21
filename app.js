@@ -70,7 +70,7 @@ app.use((error, request, response, next) => {
   response.render('error', {error: error});
 });
 
-app.listen(PORT, async () => {
+const server = app.listen(PORT, async () => {
   console.log({'timestamp': Date.now(), 'severity': 'INFO', 'status': '', 'message': `App listening on port ${PORT}`});
   try {
     await DB.authenticate();
@@ -79,3 +79,27 @@ app.listen(PORT, async () => {
     console.log({'timestamp': Date.now(), 'severity': 'ERROR', status: '', 'message': `${error.messagge} ${error.stack}`});
   }
 });
+
+
+// Handle shutdown
+async function shutdown () {
+  console.log({'timestamp': Date.now(), 'severity': 'INFO', 'status': '', 'message': `Shutting down...`});
+  try {
+    server.close(async () => {
+      console.log({'timestamp': Date.now(), 'severity': 'INFO', 'status': '', 'message': 'All requests stopped'});
+      await DB.close();
+      console.log({'timestamp': Date.now(), 'severity': 'INFO', 'status': '', 'message': 'DB disconnected'});
+      process.exit(0);
+    });
+  } catch (error) {
+    console.log({'timestamp': Date.now(), 'severity': 'ERROR', status: '', 'message': `${error.messagge} ${error.stack}`});
+    setTimeout(() => {
+      console.error({'timestamp': Date.now(), 'severity': 'ERROR', status: '', 'message': 'Could not close connections in time, forcefully shutting down'});
+      process.exit(1);
+    }, 60);
+  }
+}
+process.on('SIGTERM', shutdown);
+process.on('SIGINT', shutdown);
+process.on('SIGQUIT', shutdown);
+
