@@ -7,7 +7,7 @@ block main
                 p.namecard-greeting Welcome, #{name}!
                 form.namecard-exit(action='/auth/goodbye', method='POST')
                     button(type='submit')
-                        img(src='/static/img/close.svg')
+                        img(src='/static/img/close.svg' alt='Image of X to indicate logging out')
             else
                 p.namecard-greeting Hello, student!
         block intro
