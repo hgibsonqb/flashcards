@@ -11,8 +11,8 @@ const DB = new sequelize({
   dialect: 'sqlite',
   storage: 'cards.db'
 });
-const ORIGIN = 'http://localhost';
-const PORT = 8080;
+const ORIGIN = process.env.ORIGIN || 'http://localhost';
+const PORT = process.env.PORT || 8080;
 
 const app = express();
 
@@ -75,7 +75,7 @@ app.use((request, response, next) => {
 
 // Error middleware
 app.use((error, request, response, next) => {
-  error.status = error.status ? error.status : 500;
+  error.status = error.status || 500;
   response.status(error.status);
   console.log({'timestamp': Date.now(), 'severity': 'ERROR', 'status': response.statusCode, 'message': `${error.message} ${error.stack}`});
   response.render('error', {error: error});
