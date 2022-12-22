@@ -50,6 +50,17 @@ app.use('/auth', auth);
 const cards = require('./routes/cards.js')(DB);
 app.use('/cards', cards);
 
+// Health check
+app.get('/healthcheck', async (request, response) => {
+  try {
+    await DB.authenticate();
+    response.sendStatus(200);
+  } catch (error) {
+    console.log({'timestamp': Date.now(), 'severity': 'ERROR', status: '', 'message': `${error.messagge} ${error.stack}`});
+    resonse.sendStatus(500);
+  }
+});
+
 // Index
 app.get('/', (request, response) => {
   response.redirect(303, '/cards/');
@@ -73,13 +84,13 @@ app.use((error, request, response, next) => {
 const server = app.listen(PORT, async () => {
   console.log({'timestamp': Date.now(), 'severity': 'INFO', 'status': '', 'message': `App listening on port ${PORT}`});
   try {
+    console.log({'timestamp': Date.now(), 'severity': 'INFO', 'status': '', 'message': `Starting...`});
     await DB.authenticate();
     await DB.sync();
   } catch (error) {
     console.log({'timestamp': Date.now(), 'severity': 'ERROR', status: '', 'message': `${error.messagge} ${error.stack}`});
   }
 });
-
 
 // Handle shutdown
 async function shutdown () {
@@ -96,10 +107,9 @@ async function shutdown () {
     setTimeout(() => {
       console.error({'timestamp': Date.now(), 'severity': 'ERROR', status: '', 'message': 'Could not close connections in time, forcefully shutting down'});
       process.exit(1);
-    }, 60);
+    }, 10);
   }
 }
 process.on('SIGTERM', shutdown);
 process.on('SIGINT', shutdown);
 process.on('SIGQUIT', shutdown);
-
