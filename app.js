@@ -7,7 +7,10 @@ const session = require('express-session');
 const sequelize = require('sequelize');
 
 // Config
-const DB = new sequelize({
+const DB_NAME = process.env.DB_NAME || 'default';
+const DB_PASSWORD = process.env.DB_PASSWORD || 'flashcards';
+const DB_USERNAME = process.env.DB_USERNAME || 'flashcards';
+const DB = new sequelize(DB_NAME, DB_USERNAME, DB_PASSWORD, {
   dialect: 'sqlite',
   storage: 'cards.db'
 });
