@@ -1,7 +1,12 @@
 extends app
 
 block card
-  section(class=`flashcards`)
-    h2= title
-    form(action="/cards/" + userid, method="post")
-      include form
+  section.flashcards
+    div.card(class='card-question')
+      div.card-header
+      div#content
+        form.new-card(action="/cards/" + userid, method="post")
+          include form
+block nav
+  include nav
+    a(href="/cards/" + userid) Take me back

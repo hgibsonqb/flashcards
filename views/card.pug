@@ -1,22 +1,23 @@
 extends app
 
 block card
-  section(class=`flashcards`)
-    .card(class=`card-${side}`)
-      .card-header
-      h1.card-title= side
-      #content
+  section.flashcards
+    div.card(class=`card-${side}`)
+      div.card-header
+      h1= side
+      div#content
         h2= text
         if hint
-          p.hint
+          p
             i= hint
-      .card-flip-wrap
+      div.card-flip
         a(href=`${id}?side=${sideToShow}`)
-          img.card-flip(src='/static/img/flip.svg' alt='Image of circling arrows to indicate flipping the flashcard')
-      .card-next
+          img(src='/static/img/flip.svg' alt='Image of circling arrows to indicate flipping the flashcard')
+      div.card-next
         a(href='/cards')
           img(src='/static/img/next.svg' alt='Image of arrow indicating moving to the next flashcoard')
-      .card-delete
-        a(href='/cards/' + userid + '/' + id + '/delete') Delete Card
     script(src='/static/js/app.js')
-    a.new-card(href="/cards/" + userid + "/new", class="btn-new") Create New Flashcard &#43;
+block nav
+  include nav
+    a(href=`${id}/edit`) Edit card
+    a(href='/cards/' + userid + '/' + id + '/delete') Delete Card

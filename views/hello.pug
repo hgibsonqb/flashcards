@@ -2,7 +2,7 @@ extends app
 
 block intro
   form.namecard-form(action='/auth/hello', method='post')
-    label.namecard-prompt Please enter your name:
-      input.namecard-name(type='text', name='username')
-      input.namecard-name(type='password', name='password')
-    button.namecard-submit(type='submit') Submit
+    label Please enter your name:
+      input(type='text', name='username')
+      input(type='password', name='password')
+    button(type='submit') Submit
