@@ -195,11 +195,6 @@ div.card-flip a img {
   max-width: 25px;
 }
 
-div.card-flip a img:hover {
-  border: 2px solid #D64226;
-  cursor: pointer;
-}
-
 div.card-header {
   background-color: #727C85;
   border-top-left-radius: 10px;
