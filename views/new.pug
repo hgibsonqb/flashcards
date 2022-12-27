@@ -4,6 +4,7 @@ block card
   section.flashcards
     div.card(class='card-question')
       div.card-header
+      h1= 'new card'
       div#content
         form.new-card(action="/cards/" + userid, method="post")
           include form

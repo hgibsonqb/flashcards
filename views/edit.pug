@@ -4,6 +4,7 @@ block card
   section.flashcards
     div.card(class='card-question')
       div.card-header
+      h1= 'edit card'
       div#content
         form.edit-card(action="/cards/" + userid + "/" + id, method="post")
           include form
