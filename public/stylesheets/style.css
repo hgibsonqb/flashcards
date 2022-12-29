@@ -46,7 +46,7 @@ a, button {
   box-sizing: border-box;
   color: #D64226;
   outline: none;
-  padding: 8px;
+  padding: 0.5rem;
 }
 
 a:hover, button:hover {
@@ -70,7 +70,7 @@ input {
   border: 0;
   border-radius: 5px;
   color: #34393D;
-  height: 30px;
+  height: 2rem;
   outline: none;
   width: 80%;
 }
@@ -146,7 +146,7 @@ div.card h1 {
   color: #727C85;
   font-weight: 400;
   padding: 10px;
-  letter-spacing: 5px;
+  letter-spacing: 0.25rem;
   margin: 8px auto 0;
   text-transform: uppercase;
 }
@@ -224,7 +224,7 @@ div#content button, div#content input {
   color: #C79735;
   font-size: .8rem;
   margin: 2px auto;
-  padding: 2px;
+  padding: 0.125rem;
 }
 
 div#content button:hover, div#content input:hover {
@@ -233,7 +233,7 @@ div#content button:hover, div#content input:hover {
 }
 
 div#content label {
-  padding-top: 2px;
+  padding-top: 0.125rem;
 }
 
 div.namecard-login {
@@ -285,7 +285,7 @@ form.edit-card, form.new-card {
 form.namecard-form h1 {
   font-size: 1.8rem;
   font-weight: 400;
-  padding-top: 45px;
+  padding-top: 3rem;
 }
 
 form.namecard-exit {
@@ -305,7 +305,7 @@ form.namecard-exit button img {
 }
 
 form.namecard-form {
-  padding-top: 15px;
+  padding-top: 1rem;
 }
 
 form.namecard-form button {
