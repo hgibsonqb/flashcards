@@ -8,7 +8,7 @@ html, body {
 
 body {
   background-color: #EDEAD9;
-  padding: 20px;
+  padding: 2vmin;
   position: relative;
 }
 
@@ -23,7 +23,7 @@ header {
 }
 
 header img {
-  max-width: 350px;
+  max-width: 35vh;
   width: 100%;
 }
 
@@ -32,7 +32,7 @@ h2 {
 }
 
 a, button, input, label, p {
-  margin: 8px auto;
+  margin: 1vmin auto;
 }
 
 a:hover, button:hover, input:hover {
@@ -46,7 +46,7 @@ a, button {
   box-sizing: border-box;
   color: #D64226;
   outline: none;
-  padding: 0.5rem;
+  padding: calc(0.5rem + 0.5vmin);
 }
 
 a:hover, button:hover {
@@ -70,13 +70,13 @@ input {
   border: 0;
   border-radius: 5px;
   color: #34393D;
-  height: 2rem;
+  height: calc(2rem + 2vmin);
   outline: none;
   width: 80%;
 }
 
 label {
-  font-size: 1.8rem;
+  font-size: (1.8rem + 1.8vmin);
 }
 
 p {
@@ -102,9 +102,9 @@ section.desk h1 {
 
 section.desk img {
   margin: auto;
-  max-width: 600px;
-  padding-top: 50px;
-  padding-bottom: 50px;
+  max-width: 64vw;
+  padding-top: 5.5vh;
+  padding-bottom: 5.5vh;
   width: 100%;
 }
 
@@ -112,30 +112,31 @@ nav, section.flashcards {
   left: 0;
   position: absolute;
   right: 0;
+  width: 80%;
 }
 
 section.flashcards {
-  top: 240px;
+  top: 25vh;
 }
 
 section.namecard {
   background-color: #F5F3ED;
   color: #727C85;
-  max-width: 400px;
+  max-width: 64vw;
 }
 
 div.card, nav {
   box-sizing: border-box;
   color: #727C85;
-  line-height: 1.5;
-  margin-bottom: 30px;
-  max-width: 400px;
+  line-height: calc(1.5em + 1.5vmin);
+  margin-bottom: 3vh;
+  max-width: 64vw;
 }
 
 div.card {
   border-bottom: 4px solid rgba(0,0,0,.1);
   border-radius: 20px;
-  min-height: 425px;
+  min-height: 46vh;
   position: relative;
 }
 
@@ -145,9 +146,9 @@ div.card h1 {
   border-bottom: 2px solid rgba(0,0,0,.05);
   color: #727C85;
   font-weight: 400;
-  padding: 10px;
-  letter-spacing: 0.25rem;
-  margin: 8px auto 0;
+  padding: 1vmin;
+  letter-spacing: calc(0.25rem + 0.25vmin);
+  margin: 1vmin auto 0;
   text-transform: uppercase;
 }
 
@@ -179,8 +180,8 @@ div.card-question div:first-of-type {
 }
 
 div.card-flip {
-  bottom: 10px;
-  left: 20px;
+  bottom: 1vh;
+  left: 2vw;
   position: absolute;
 }
 
@@ -188,22 +189,22 @@ div.card-flip a img {
   background-color: #fff;
   border: 2px solid #fff;
   border-radius: 50px;
-  margin-top: 30px;
-  max-width: 25px;
+  margin-top: 3vh;
+  max-width: 3vw;
 }
 
 div.card-header {
   background-color: #727C85;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
-  height: 100px;
+  height: 11vh;
 }
 
 div.card-next {
-  bottom: 25px;
-  padding: 0px; 
+  bottom: 2.5vw;
+  padding: 0; 
   position: absolute;
-  right: 20px;
+  right: 2vw;
 }
 
 div.card-next a:link, div.card-next a:visited, div.card-next a:hover, div.card-next a:active {
@@ -211,7 +212,7 @@ div.card-next a:link, div.card-next a:visited, div.card-next a:hover, div.card-n
 }
 
 div.card-next a img {
-  max-width: 30px;
+  max-width: 3vw;
 }
 
 div#content {
@@ -222,9 +223,9 @@ div#content button, div#content input {
   background-color: #F5F3ED;
   border: 1px solid #C79735;
   color: #C79735;
-  font-size: .8rem;
-  margin: 2px auto;
-  padding: 0.125rem;
+  font-size: calc(0.8rem + 0.8vmin);
+  margin: 0.25vmin auto;
+  padding: calc(0.125rem + 0.125vmin);
 }
 
 div#content button:hover, div#content input:hover {
@@ -233,7 +234,7 @@ div#content button:hover, div#content input:hover {
 }
 
 div#content label {
-  padding-top: 0.125rem;
+  padding-top: (0.125rem + 0.125vmin);
 }
 
 div.namecard-login {
@@ -241,7 +242,7 @@ div.namecard-login {
   display: -ms-flex;
   display: -webkit-flex;
   display: flex;
-  padding: 5px 20px;
+  padding: 0.5vh 2vw;
 }
 
 div.namecard-login p {
@@ -254,16 +255,16 @@ div.paper {
   background-size: 100% 2.5rem;
   border-left: 0.2rem solid rgba(216, 64, 38, 0.5);
   color: #34393D;
-  height: 500px;
-  margin-top: 70px;
+  height: 54vh;
+  margin-top: 7.5vh;
   overflow: scroll;
-  padding-left: 20px;
+  padding-left: 2vw;
   text-align: left;
 }
 
 div.paper pre {
-  line-height: 3.15rem;
-  margin-top: 0px;
+  line-height: calc(3.15rem + 3.15vmin);
+  margin-top: 0;
   white-space: pre-wrap;       /* css-3 */
   white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
   white-space: -pre-wrap;      /* Opera 4-6 */
@@ -274,18 +275,18 @@ div.paper pre {
 div.tear {
   background-image: url("../img/tear.svg");
   background-repeat: repeat-x;
-  height: 24px;
+  height: 2.5vh;
   width: 100%;
 }
 
 form.edit-card, form.new-card {
-  max-height: 425px;
+  max-height: 45vh;
 }
 
 form.namecard-form h1 {
-  font-size: 1.8rem;
+  font-size: calc(1.8rem + 1.8vmin);
   font-weight: 400;
-  padding-top: 3rem;
+  padding-top: calc(3rem + 3vmin);
 }
 
 form.namecard-exit {
@@ -296,7 +297,7 @@ form.namecard-exit {
 form.namecard-exit button {
   background-color: #F5F3ED;
   border: none;
-  margin-top: 2px;
+  margin-top: 0.25vh;
   outline: none;
 }
 
@@ -305,7 +306,7 @@ form.namecard-exit button img {
 }
 
 form.namecard-form {
-  padding-top: 1rem;
+  padding-top: calc(1rem + 1vmin);
 }
 
 form.namecard-form button {
