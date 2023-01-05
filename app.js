@@ -85,30 +85,30 @@ app.use((error, request, response, next) => {
 });
 
 const server = app.listen(PORT, async () => {
-  console.log({'timestamp': Date.now(), 'severity': 'INFO', 'status': '', 'message': `App listening on port ${PORT}`});
+  console.log({'timestamp': Date.now(), 'severity': 'INFO', 'status': 100, 'message': `App listening on port ${PORT}`});
   try {
-    console.log({'timestamp': Date.now(), 'severity': 'INFO', 'status': '', 'message': `Starting...`});
+    console.log({'timestamp': Date.now(), 'severity': 'INFO', 'status': 100, 'message': `Starting...`});
     await DB.authenticate();
     await DB.sync();
   } catch (error) {
-    console.log({'timestamp': Date.now(), 'severity': 'ERROR', status: '', 'message': `${error.messagge} ${error.stack}`});
+    console.log({'timestamp': Date.now(), 'severity': 'ERROR', status: 500, 'message': `${error.messagge} ${error.stack}`});
   }
 });
 
 // Handle shutdown
 async function shutdown () {
-  console.log({'timestamp': Date.now(), 'severity': 'INFO', 'status': '', 'message': `Shutting down...`});
+  console.log({'timestamp': Date.now(), 'severity': 'INFO', 'status': 100, 'message': `Shutting down...`});
   try {
     server.close(async () => {
-      console.log({'timestamp': Date.now(), 'severity': 'INFO', 'status': '', 'message': 'All requests stopped'});
+      console.log({'timestamp': Date.now(), 'severity': 'INFO', 'status': 100, 'message': 'All requests stopped'});
       await DB.close();
-      console.log({'timestamp': Date.now(), 'severity': 'INFO', 'status': '', 'message': 'DB disconnected'});
+      console.log({'timestamp': Date.now(), 'severity': 'INFO', 'status': 100, 'message': 'DB disconnected'});
       process.exit(0);
     });
   } catch (error) {
-    console.log({'timestamp': Date.now(), 'severity': 'ERROR', status: '', 'message': `${error.messagge} ${error.stack}`});
+    console.log({'timestamp': Date.now(), 'severity': 'ERROR', status: 500, 'message': `${error.messagge} ${error.stack}`});
     setTimeout(() => {
-      console.error({'timestamp': Date.now(), 'severity': 'ERROR', status: '', 'message': 'Could not close connections in time, forcefully shutting down'});
+      console.error({'timestamp': Date.now(), 'severity': 'ERROR', status: 500, 'message': 'Could not close connections in time, forcefully shutting down'});
       process.exit(1);
     }, 10);
   }
