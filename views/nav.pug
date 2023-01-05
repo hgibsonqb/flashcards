@@ -1,2 +1,7 @@
 nav
+  button(name="show")
+    img(src='/static/img/up-arrow.svg', alt='Image of arrow pointing up, to indicate expanding navigation')
+  button(name="hide")
+    img(src='/static/img/down-arrow.svg', alt='Image of arrow pointing up, to indicate colapsing navigation')
   a(href='/cards/' + userid + '/new') Create New Card &#43;
+script(src='/static/js/nav.js')
