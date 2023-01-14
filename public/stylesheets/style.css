@@ -85,6 +85,11 @@ p {
 
 div, nav, section {
   margin: auto;
+  max-width: 480px;
+}
+
+nav, section {
+  width: 100%;
 }
 
 nav {
@@ -110,7 +115,6 @@ nav button img {
 
 section.desk {
   color: #727C85;
-  width: 80%;
 }
 
 section.desk h1 {
@@ -129,7 +133,6 @@ nav, section.flashcards {
   left: 0;
   position: absolute;
   right: 0;
-  width: 80%;
 }
 
 section.flashcards {
@@ -139,7 +142,6 @@ section.flashcards {
 section.namecard {
   background-color: #F5F3ED;
   color: #727C85;
-  max-width: 64vw;
 }
 
 div.card, nav {
@@ -147,7 +149,6 @@ div.card, nav {
   color: #727C85;
   line-height: calc(1.5em + 1.5vmin);
   margin-bottom: 3vh;
-  max-width: 64vw;
 }
 
 div.card {
@@ -328,4 +329,22 @@ form.namecard-form {
 
 form.namecard-form button {
   width: 100%;
+}
+
+@media only screen and (max-width: 480px) {
+
+}
+
+@media only print {
+  div.card-flip, div.card-next, div.namecard-login {
+    display: none; 
+  }
+
+  form {
+    display: none; 
+  }
+
+  nav {
+    display: none;
+  }
 }
